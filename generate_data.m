@@ -1,5 +1,7 @@
 % Generate a noisy signal given a random seed, length, and noise variance (Assuming symbol energy = 1)
-% Returns 
+% Returns:
+%   x_out: Noisy symbol vector, this will have shape [2,num_transmissions], 1st row is real part, 2nd is imaginary
+%   y_out: Actual LLRs calculated, this will have shape [m, num_transmissions]
 % Note that this function will only handle modulation schemes with two orthogonal basis funtions
 % modulation_scheme can take on the following values which correspond to the following:
 %   0: 2-PSK
@@ -44,5 +46,13 @@ function [x_out, y_out] = generate_data(seed, num_transmissions, noise_var, modu
     % Generate the noise
     noise_vec = normrnd(0, sqrt(noise_var), 1, num_transmissions) + ...
                    normrnd(0, sqrt(noise_var), 1, num_transmissions)*1j;
+    
+    % Calculate the LLRs
+    y_out = calculate_LLR_full_precision(modulation_scheme, noise_vec, noise_var);
+
+    % Get values for x_out
+    x_out = zeros(2,num_transmissions);
+    x_out(1,:) = real(noise_vec);
+    x_out(2,:) = imag(noise_vec);
     
 end
