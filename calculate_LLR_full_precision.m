@@ -8,12 +8,16 @@
 %   4: 16-QAM
 function llr_vec = calculate_LLR_full_precision(modulation_scheme, symbol_vec, noise_var)
     % Could perhaps add a function to allow for non-uniform source distribution (ie: p(x=1) != p(x=0))
-
+    
+    load_modulations;
+    
     % Determine how many symbols we have given the modulation scheme
+    % Special case for BPSK where we discard the imaginary component entirely.
     switch(modulation_scheme)
         case 0
             m = 1;
             constellation_map = BPSK_modulation;
+            symbol_vec = real(symbol_vec);
         case 1
             m = 2;
             constellation_map = QPSK_modulation;
@@ -49,18 +53,18 @@ function llr_vec = calculate_LLR_full_precision(modulation_scheme, symbol_vec, n
             % Loop through all symbols now, note that we apply the logarithmn at the end so 
             for k=1:num_symbols
                 
-                % Swap whether we are looking at a 0 bit or 1 bit
-                if(mod(k, 2^(j-1) == 0))
-                    num_or_dem = num_or_dem * -1;
-                end
-                
                 % Looking at 0 bit
                 if(num_or_dem == 1)
-                    num_sum = num_sum + exp((-1/noise_var) * (abs(symbol_vec(i) - constellation_map(k)))^2);
+                    num_sum = num_sum + exp(-1/(2*noise_var) * (abs(symbol_vec(i) - constellation_map(k)))^2);
 
                 % Looking at 1 bit
                 else
-                    dem_sum = dem_sum + exp((-1/noise_var) * (abs(symbol_vec(i) - constellation_map(k)))^2);
+                    dem_sum = dem_sum + exp(-1/(2*noise_var) * (abs(symbol_vec(i) - constellation_map(k)))^2);
+                end
+                
+                % Swap whether we are looking at a 0 bit or 1 bit
+                if(mod(k, 2^(j-1)) == 0)
+                    num_or_dem = num_or_dem * -1;
                 end
             end
 
