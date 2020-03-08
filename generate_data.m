@@ -46,5 +46,3 @@ function [x_out, y_out] = generate_data(seed, num_transmissions, noise_var, modu
                    normrnd(0, sqrt(noise_var), 1, num_transmissions)*1j;
     
 end
-
-
