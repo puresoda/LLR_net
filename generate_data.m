@@ -21,18 +21,23 @@ function [x_out, y_out] = generate_data(seed, num_transmissions, noise_var, modu
         case 0
             m = 1;
             constellation_map = BPSK_modulation;
+            MODULATION = "BPSK";
         case 1
             m = 2;
             constellation_map = QPSK_modulation;
+            MODULATION = "QPSK";
         case 2
             m = 3;
             constellation_map = eight_QAM_modulation;
+            MODULATION = "8_QAM";
         case 3
             m = 3;
             constellation_map = eight_PSK_modulation;
+            MODULATION = "8_PSK";
         case 4
             m = 4;
             constellation_map = sixteen_QAM_modulation;
+            MODULATION = "16_QAM";
         otherwise
             error("Incorrect Modulation Scheme Value (must be between 0 and 4)");
     end
@@ -54,5 +59,11 @@ function [x_out, y_out] = generate_data(seed, num_transmissions, noise_var, modu
     x_out = zeros(2,num_transmissions);
     x_out(1,:) = real(noise_vec);
     x_out(2,:) = imag(noise_vec);
+
+    % Save values to csv files
+    X_file_name = MODULATION + "_X_train_var_" + num2str(noise_var) + ".csv";
+    y_file_name = MODULATION + "_y_train_var_" + num2str(noise_var) + ".csv";
     
+    writematrix(x_out, X_file_name);
+    writematrix(y_out, y_file_name);
 end
