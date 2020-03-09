@@ -52,13 +52,15 @@ function [x_out, y_out] = generate_data(seed, num_transmissions, noise_var, modu
     noise_vec = normrnd(0, sqrt(noise_var), 1, num_transmissions) + ...
                    normrnd(0, sqrt(noise_var), 1, num_transmissions)*1j;
     
+    recieved_vec = constellation_vec + noise_vec;
+    
     % Calculate the LLRs
-    y_out = calculate_LLR_full_precision(modulation_scheme, noise_vec, noise_var);
+    y_out = calculate_LLR_full_precision(modulation_scheme, recieved_vec, noise_var);
 
     % Get values for x_out
     x_out = zeros(2,num_transmissions);
-    x_out(1,:) = real(noise_vec);
-    x_out(2,:) = imag(noise_vec);
+    x_out(1,:) = real(recieved_vec);
+    x_out(2,:) = imag(recieved_vec);
 
     % Save values to csv files
     X_file_name = MODULATION + "_X_train_var_" + num2str(noise_var) + ".csv";
