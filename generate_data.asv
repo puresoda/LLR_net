@@ -46,14 +46,14 @@ function [x_out, y_out] = generate_data(train_valid_test_sizes, noise_var, modul
     
     num_symbols = 2^m;
     
-    for i=1:length(train_valid_test_sizes)
+    for i=1:len(train_valid_test_sizes)
         % Generate the random signal based on modulation order
-        bit_vec = randi([1,num_symbols], 1, train_valid_test_sizes(i));
+        bit_vec = randi([1,num_symbols], 1, num_transmissions);
         constellation_vec = constellation_map(bit_vec);
 
         % Generate the noise
-        noise_vec = normrnd(0, sqrt(noise_var), 1, train_valid_test_sizes(i)) + ...
-                       normrnd(0, sqrt(noise_var), 1, train_valid_test_sizes(i))*1j;
+        noise_vec = normrnd(0, sqrt(noise_var), 1, num_transmissions) + ...
+                       normrnd(0, sqrt(noise_var), 1, num_transmissions)*1j;
 
         recieved_vec = constellation_vec + noise_vec;
 
@@ -61,7 +61,7 @@ function [x_out, y_out] = generate_data(train_valid_test_sizes, noise_var, modul
         y_out = calculate_LLR_full_precision(modulation_scheme, recieved_vec, noise_var);
 
         % Get values for x_out
-        x_out = zeros(2,train_valid_test_sizes(i));
+        x_out = zeros(2,num_transmissions);
         x_out(1,:) = real(recieved_vec);
         x_out(2,:) = imag(recieved_vec);
         
@@ -77,8 +77,8 @@ function [x_out, y_out] = generate_data(train_valid_test_sizes, noise_var, modul
         end
         % Save values to csv files
         if(save_flag == 1)
-            X_file_name = MODULATION + "_X_" + set + "_var_" + num2str(noise_var) + ".csv";
-            y_file_name = MODULATION + "_y_" + set + "_var_" + num2str(noise_var) + ".csv";
+            X_file_name = MODULATION + "_X_test_var_" + num2str(noise_var) + ".csv";
+            y_file_name = MODULATION + "_y_test_var_" + num2str(noise_var) + ".csv";
 
             writematrix(x_out, X_file_name);
             writematrix(y_out, y_file_name);
