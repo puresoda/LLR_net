@@ -9,12 +9,14 @@
 %   2: 8-QAM
 %   3: 8-PSK
 %   4: 16-QAM
-function [x_out, y_out] = generate_data(seed, num_transmissions, noise_var, modulation_scheme)
-
+function [x_out, y_out] = generate_data(num_transmissions, noise_var, modulation_scheme)
+    
+    save_flag = 1;
     load_modulations;
               
-    % Set the RNG seed
-    rng(seed, 'twister')
+    % Set the RNG seed if wanted
+    % seed = 0;
+    % rng(seed, 'twister')
     
     % Determine how many symbols we have given the modulation scheme
     switch(modulation_scheme)
@@ -63,9 +65,11 @@ function [x_out, y_out] = generate_data(seed, num_transmissions, noise_var, modu
     x_out(2,:) = imag(recieved_vec);
 
     % Save values to csv files
-    X_file_name = MODULATION + "_X_train_var_" + num2str(noise_var) + ".csv";
-    y_file_name = MODULATION + "_y_train_var_" + num2str(noise_var) + ".csv";
-    
-    writematrix(x_out, X_file_name);
-    writematrix(y_out, y_file_name);
+    if(save_flag == 1)
+        X_file_name = MODULATION + "_X_test_var_" + num2str(noise_var) + ".csv";
+        y_file_name = MODULATION + "_y_test_var_" + num2str(noise_var) + ".csv";
+
+        writematrix(x_out, X_file_name);
+        writematrix(y_out, y_file_name);
+    end    
 end

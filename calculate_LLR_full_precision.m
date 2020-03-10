@@ -17,7 +17,6 @@ function llr_vec = calculate_LLR_full_precision(modulation_scheme, symbol_vec, n
         case 0
             m = 1;
             constellation_map = BPSK_modulation;
-            symbol_vec = real(symbol_vec);
         case 1
             m = 2;
             constellation_map = QPSK_modulation;
