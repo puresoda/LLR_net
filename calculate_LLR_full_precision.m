@@ -12,7 +12,6 @@ function llr_vec = calculate_LLR_full_precision(modulation_scheme, symbol_vec, n
     load_modulations;
     
     % Determine how many symbols we have given the modulation scheme
-    % Special case for BPSK where we discard the imaginary component entirely.
     switch(modulation_scheme)
         case 0
             m = 1;
@@ -49,7 +48,7 @@ function llr_vec = calculate_LLR_full_precision(modulation_scheme, symbol_vec, n
             num_sum = 0;
             dem_sum = 0;
 
-            % Loop through all symbols now, note that we apply the logarithmn at the end so 
+            % Loop through all symbols now, note that we apply the logarithmn at the end 
             for k=1:num_symbols
                 
                 % Looking at 0 bit
@@ -62,6 +61,9 @@ function llr_vec = calculate_LLR_full_precision(modulation_scheme, symbol_vec, n
                 end
                 
                 % Swap whether we are looking at a 0 bit or 1 bit
+                % For LSB, swap every symbol
+                % For 2nd LSB, swap every 2 symbols
+                % For nth LSB, swap every 2^(n-1) symbols
                 if(mod(k, 2^(j-1)) == 0)
                     num_or_dem = num_or_dem * -1;
                 end
