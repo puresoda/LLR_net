@@ -95,14 +95,14 @@ function [X_train, X_valid, X_test, y_train, y_valid, y_test] = generate_data_va
     end
     
     if(save_flag == 1)
-        X_train_file_name = MODULATION + "_X_" + "train" + "_SNRs_" + num2str(SNR_range(1)) + "_" + num2str(SNR_range(end)) + ".csv";
-        y_train_file_name = MODULATION + "_y_" + "train" + "_SNRs_" + num2str(SNR_range(1)) + "_" + num2str(SNR_range(end)) + ".csv";
+        X_train_file_name = MODULATION + "_X_" + "train" + "_snr_range_" + num2str(SNR_range(1)) + "_" + num2str(SNR_range(end)) + ".csv";
+        y_train_file_name = MODULATION + "_y_" + "train" + "_snr_range_" + num2str(SNR_range(1)) + "_" + num2str(SNR_range(end)) + ".csv";
         
-        X_valid_file_name = MODULATION + "_X_" + "valid" + "_SNRs_" + num2str(SNR_range(1)) + "_" + num2str(SNR_range(end)) + ".csv";
-        y_valid_file_name = MODULATION + "_y_" + "valid" + "_SNRs_" + num2str(SNR_range(1)) + "_" + num2str(SNR_range(end)) + ".csv";
+        X_valid_file_name = MODULATION + "_X_" + "valid" + "_snr_range_" + num2str(SNR_range(1)) + "_" + num2str(SNR_range(end)) + ".csv";
+        y_valid_file_name = MODULATION + "_y_" + "valid" + "_snr_range_" + num2str(SNR_range(1)) + "_" + num2str(SNR_range(end)) + ".csv";
         
-        X_test_file_name = MODULATION + "_X_" + "test" + "_SNRs_" + num2str(SNR_range(1)) + "_" + num2str(SNR_range(end)) + ".csv";
-        y_test_file_name = MODULATION + "_y_" + "test" + "_SNRs_" + num2str(SNR_range(1)) + "_" + num2str(SNR_range(end)) + ".csv";
+        X_test_file_name = MODULATION + "_X_" + "test" + "_snr_range_" + num2str(SNR_range(1)) + "_" + num2str(SNR_range(end)) + ".csv";
+        y_test_file_name = MODULATION + "_y_" + "test" + "_snr_range_" + num2str(SNR_range(1)) + "_" + num2str(SNR_range(end)) + ".csv";
         
         writematrix(X_train, X_train_file_name);
         writematrix(y_train, y_train_file_name);
