@@ -9,7 +9,7 @@
 %   2: 8-QAM
 %   3: 8-PSK
 %   4: 16-QAM
-function [x_out, y_out] = generate_data(train_valid_test_sizes, noise_var, modulation_scheme)
+function [x_out, y_out] = generate_data(train_valid_test_sizes, snr, modulation_scheme)
     
     save_flag = 1;
     load_modulations;
@@ -45,6 +45,7 @@ function [x_out, y_out] = generate_data(train_valid_test_sizes, noise_var, modul
     end
     
     num_symbols = 2^m;
+    noise_var = 0.5*10^(-snr/10);
     
     for i=1:length(train_valid_test_sizes)
         % Generate the random signal based on modulation order
@@ -77,8 +78,8 @@ function [x_out, y_out] = generate_data(train_valid_test_sizes, noise_var, modul
         end
         % Save values to csv files
         if(save_flag == 1)
-            X_file_name = MODULATION + "_X_" + set + "_var_" + num2str(noise_var) + ".csv";
-            y_file_name = MODULATION + "_y_" + set + "_var_" + num2str(noise_var) + ".csv";
+            X_file_name = MODULATION + "_X_" + set + "_snr_" + num2str(snr) + ".csv";
+            y_file_name = MODULATION + "_y_" + set + "_snr_" + num2str(snr) + ".csv";
 
             writematrix(x_out, X_file_name);
             writematrix(y_out, y_file_name);
