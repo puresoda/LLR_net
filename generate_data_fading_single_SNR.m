@@ -55,9 +55,11 @@ function [x_out, y_out] = generate_data_fading_single_SNR(train_valid_test_sizes
         % Generate the noise
         noise_vec = normrnd(0, sqrt(noise_var), 1, train_valid_test_sizes(i)) + ...
                        normrnd(0, sqrt(noise_var), 1, train_valid_test_sizes(i))*1j;
-
+        
+        % Generate fading
         fade_vec = raylrnd(fade_var,1,train_valid_test_sizes(i)) .* exp(2*pi*1j*rand(1,train_valid_test_sizes(i)));
-        recieved_vec = constellation_vec + noise_vec;
+        
+        recieved_vec = fade_vec.*constellation_vec + noise_vec;
 
         % Calculate the LLRs
         y_out = calculate_LLR_full_precision(modulation_scheme, recieved_vec, noise_var);
