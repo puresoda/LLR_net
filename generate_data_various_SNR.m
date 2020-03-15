@@ -62,7 +62,7 @@ function [X_train, X_valid, X_test, y_train, y_valid, y_test] = generate_data_va
             constellation_vec = constellation_map(bit_vec);
             
             % Assuming average symbol energy of 1, convert SNR to N0
-            noise_var = 0.5*10^(-1*SNR_range(i)/10);
+            noise_var = 0.5*10^(-1*SNR_range(ii)/10);
             
             % Generate the noise
             noise_vec = normrnd(0, sqrt(noise_var), 1, train_valid_test_sizes(i)) + ...
