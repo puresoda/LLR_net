@@ -1,2 +1,0 @@
-1.  Clean up the MATLAB generate data files. As of now, they have redundant code so wrapping that into its own function will probably be best moving forward.
-2.  Finish up the python notebook and possibly clean that up too. The redundant code in the notebook is unavoidable since I need 3 different models.
